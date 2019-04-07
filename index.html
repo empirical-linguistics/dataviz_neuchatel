@@ -1,0 +1,2628 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data visualization using R</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Data visualization using R">
+  <meta name="author" content="Stefan Hartmann">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/bolditalic.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Data visualization using R</h1>
+    <h2>Tips &amp; tricks</h2>
+    <p>Stefan Hartmann<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Overview</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol class = "build incremental">
+<li>Choosing the &quot;right&quot; plot</li>
+<li>Best practices and deadly sins of data visualization</li>
+<li>How to construct plots in (base) R</li>
+<li>Tips &amp; tricks for efficient visualization</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Before we start...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li><p>experiences with R and R studio?</p></li>
+<li><p>If you have a laptop, you can download the toy datasets: <a href="https://tinyurl.com/neuchaRtel">https://tinyurl.com/neuchaRtel</a></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Before we start...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>Feel free to interrupt me at any time!</li>
+<li>There&#39;s A LOT of code in this presentation...</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Before we start...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Feel free to interrupt me at any time!</li>
+<li>There&#39;s A LOT of code in this presentation...</li>
+</ul>
+
+<pre><code class="r">this &lt;- is(what, code) {
+  looks, like
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Before we start...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Feel free to interrupt me at any time!</li>
+<li>There&#39;s A LOT of code in this presentation...</li>
+</ul>
+
+<pre><code class="r">this &lt;- is(what, code) {
+  looks, like
+}
+</code></pre>
+
+<ul class = "build incremental">
+<li>You don&#39;t have to type all of the code, it&#39;s more important that you understand the conceptual background first.</li>
+<li>There will be some hands-on exercises.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Before we start...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Feel free to interrupt me at any time!</li>
+<li>There&#39;s A LOT of code in this presentation...</li>
+</ul>
+
+<pre><code class="r">this &lt;- is(what, code) {
+  looks, like
+}
+</code></pre>
+
+<ul>
+<li>You don&#39;t have to type all of the code, it&#39;s more important that you understand the conceptual background first.</li>
+<li>There will be some hands-on exercises.</li>
+<li>Also, there will be some slides with more advanced stuff (and yellow background).</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Why visualize?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li><p><strong>For yourself</strong></p>
+
+<ul class = "build incremental">
+<li>Exploring your data</li>
+<li>detecting outliers</li>
+<li>checking assumptions of statistical tests or models (e.g. are the data normally distributed?)</li>
+<li>etc.</li>
+</ul></li>
+<li><p><strong>For others</strong></p>
+
+<ul class = "build incremental">
+<li>Showing your findings in a clear and efficient way</li>
+<li>Graphs tend to be more reader-friendly than tables...</li>
+<li class='..'>and <em>much</em> more reader-friendly than long inline lists!</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Choosing the &quot;right&quot; plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>What kind of data are you dealing with?</li>
+<li>What is your research question?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Types of data: Levels of measurement</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>categorical variables:
+
+<ul>
+<li><strong>nominal variable</strong>: e.g. married, not married, divorced; Swiss, German, French...
+
+<ul>
+<li>Subtype: <strong>binary variable</strong>, e.g. living/dead</li>
+</ul></li>
+<li><strong>ordinal variable</strong>: e.g. gold medal, silver medal, bronze medal</li>
+</ul></li>
+<li>metric variables:
+
+<ul>
+<li><strong>interval variable</strong>: e.g. temperature (Celsius, Fahreneit)</li>
+<li><strong>ratio variable</strong>: e.g. weight, temperature (Kelvin)</li>
+<li>(<strong>absolute / count variable</strong>: natural unit, e.g. number of students, age)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Alternative visualizations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What kind of variable are we dealing with here?</li>
+<li>Which visualization seems most appropriate to you?</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-1-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Alternative visualizations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What kind of variable are we dealing with here?</li>
+<li>Which visualization seems most appropriate to you?</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Alternative visualizations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What kind of variable are we dealing with here?</li>
+<li>Which visualization seems most appropriate to you?</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Alternative Visualizations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>from <a href="http://www.stubbornmule.net/2010/10/visualizing-smoking-risk/">http://www.stubbornmule.net/2010/10/visualizing-smoking-risk/</a></li>
+<li>&quot;Risk Characterization Theatre&quot; from Rifkin &amp; Bouwer (2007)</li>
+</ul>
+
+<iframe src="fig/rct.html"></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Alternative Visualizations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>from <a href="http://www.stubbornmule.net/2010/10/visualizing-smoking-risk/">http://www.stubbornmule.net/2010/10/visualizing-smoking-risk/</a></li>
+</ul>
+
+<p><img src="fig/survival1.png" width='50%' height='50%'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>The plot as a metaphor</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>&quot;The essence of a graphic display is that a set of numbers having both magnitudes and an order are represented by an appropriate visual metaphor - the magnitude and order of the metaphorical representation match the numbers.&quot; (Wainer 1984: 139)</p>
+
+<p><img src = "fig/nyt.png" width = '50%' height = '50%' class = 'center'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Best practice for reporting and displaying data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>Most importantly: <strong>Know your data!</strong></li>
+<li>When reporting percentages, also report the denominator (i.e. the size of your sample)</li>
+<li>Example: &quot;50% of academics are alcoholics&quot; - it makes a difference whether your sample size is 2 or 2,000.</li>
+<li>When reporting comparisons of absolute frequencies, double-check if your samples are comparable.</li>
+<li>Example: &quot;255 women agree that cats are adorable, but only 5 men.&quot; - it makes a difference whether your sample consists of 300 women and 300 men or of 300 women and 10 men.</li>
+<li>When reporting means, also report standard deviations.</li>
+<li>Example: [5,5,5,5,995] has the same mean as [1,180,300,223,146].</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Best practice (Tufte 2001, Freeman et al. 2009)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>Show the data</li>
+<li>Avoid distorting the data</li>
+<li>Keep &quot;Ink-to-data ratio&quot; as low as possible</li>
+<li>Use meaningful x and y labels</li>
+<li>Avoid overplotting (e.g. 3-dimensional plots when only 2 dimensions are displayed)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Beware of overplotting!</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="fig/overplotting.png" width="100%" height="100%"></img>
+<img src="fig/piechart.png" width="40%" height="40%" class="center"></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Further tips</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>If there is no natural order in your data, order them by value
+<br /></li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Further tips</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Don&#39;t cut the y axis unless there are good conceptual reasons to do so.</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>From data to plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><br />
+<img src="fig/steps.png" width="100%" height="100%"></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Preparing data for visualization</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Use &quot;tidy data&quot;: 
+
+<ul>
+<li>One variable per column</li>
+<li>One observation per row</li>
+</ul></li>
+</ul>
+
+<p><br />
+<img src="fig/tidy.png" width='100%' height='100%'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>&quot;Long&quot; vs. &quot;wide&quot; format</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>wide format: repeated responses in a single row</li>
+<li>long format: repeated responses in different rows</li>
+</ul>
+
+<p><img src="fig/widelong2.png" width='100%' height='100%'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Preparing data for visualization</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Golden rule: <strong>Don&#39;t be sloppy with your data!</strong></li>
+</ul>
+
+<p><img src="fig/utf8-excel.gif" width='80%' height='80%'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Preparing data for visualization</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Data are often messy: What&#39;s wrong here?</li>
+</ul>
+
+<p><img src="fig/formatting.png" width='100%' height='100%'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Plot types</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Scatterplots: When to use a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>show / explore correlations between two variables</li>
+<li>metric data on both the x- and the y-axis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>First, let&#39;s create some data:</li>
+</ul>
+
+<pre><code class="r">x &lt;- c(1,3,3,4,7,8)
+y &lt;- c(1,1,3,9,8,5)
+</code></pre>
+
+<ul>
+<li class='..'>and create a simple plot:</li>
+</ul>
+
+<pre><code class="r">plot(x,y)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Labels</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Colors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = &quot;red&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Colors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = rgb(1, 0, 0, alpha = 0.5))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Some notes on color</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>keep in mind that what you see on your screen is not always what you get on a printer or projector</li>
+<li>→ make sure that your colors are not too similar!</li>
+<li>use color-blind friendly color schemes</li>
+<li>avoid red-green contrasts</li>
+<li>in many cases, it makes sense to combine color with other aesthetics like shape or line type</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Some notes on color</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>If you work with many different colors in a plot, check out R&#39;s color palettes, e.g. <code>rainbow</code>, <code>heat.colors</code>, <code>terrain.colors</code></li>
+<li>Another useful resource is the <code>RColorBrewer</code> package with a number of color-blind friendly palettes (argument <code>colorblindFriendly = TRUE</code>)</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Text</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = &quot;red&quot;)
+text(x = 5, y = 5,&quot;Note the the added text! \n In a different color!&quot;, col = &quot;blue&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Shapes</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = &quot;red&quot;,
+     pch = 20)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Shapes - and sizes</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = &quot;red&quot;,
+     pch = &quot;\u263A&quot;, cex = 2)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+<ul>
+<li>Any single character can be used.</li>
+</ul>
+
+<pre><code class="r">par(mar = c(5, 4, 4, 2) + 0.1)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: Shapes</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">par_cur &lt;- par() # save default graphics parameters
+par(mar = c(1,1,1,1)) # change margins
+plot(1:20, rep(10,20), pch = c(1:20), cex=1.5, ylab=&quot;&quot;, xlab=&quot;&quot;, yaxt=&quot;n&quot;, xaxt=&quot;n&quot;)
+text(1:20, rep(8.5,20), labels = 1:20)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r">par(par_cur) # restore default graphics parameters
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: x and y limits</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = &quot;red&quot;,
+     xlim = c(0, max(x)),
+     ylim = c(0, max(y)))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, main = &quot;main&quot;, col = &quot;red&quot;, 
+     xlim = c(0, max(x)), ylim = c(0, max(y)))
+grid(nx = 0, ny=10)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+<ul>
+<li><strong>Note:</strong> default color is &quot;lightgray&quot;, which is often invisible in print</li>
+<li>In many cases grids are a waste of ink.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: cex parameters</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, 
+     # cex = 2,
+     # cex.axis = 2,
+     xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, # cex.lab = 2,
+     main = &quot;main&quot;, # cex.main = 2,
+     xlim = c(0, max(x)), ylim = c(0, max(y)))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-27-1.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: cex parameters</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, 
+     cex = 2,
+     # cex.axis = 2,
+     xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, # cex.lab = 2,
+     main = &quot;main&quot;, # cex.main = 2,
+     xlim = c(0, max(x)), ylim = c(0, max(y)))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: cex parameters</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, 
+     cex = 2,
+     cex.axis = 2,
+     xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, # cex.lab = 2,
+     main = &quot;main&quot;, # cex.main = 2,
+     xlim = c(0, max(x)), ylim = c(0, max(y)))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-29-1.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Customizing a scatterplot: cex parameters</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, 
+     cex = 2,
+     cex.axis = 2,
+     xlab = &quot;xlab&quot;, ylab = &quot;ylab&quot;, cex.lab = 2,
+     main = &quot;main&quot;, cex.main = 2,
+     xlim = c(0, max(x)), ylim = c(0, max(y)))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Adding datapoints from another dataframe</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, col = &quot;red&quot;, pch = 20)
+points(x = c(4, 5, 6), y = c(2,6,8), col = &quot;green&quot;, pch = 2)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-31-1.png" title="plot of chunk unnamed-chunk-31" alt="plot of chunk unnamed-chunk-31" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Adding a legend</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, col = &quot;red&quot;, pch = 20)
+points(x = c(4, 5, 6), y = c(2,6,8), col = &quot;green&quot;, pch = 2)
+legend (&quot;topleft&quot;, 
+        inset = c(0.01,0.01),    # distance from the margins
+        pch = c(20,2),           # the two point characters we used
+        col = c(&quot;red&quot;, &quot;green&quot;), # the two colors we used
+        legend = c(&quot;red dots&quot;, &quot;green triangles&quot;))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-32-1.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Adding a regression line</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In scatterplots, you often don&#39;t see the wood for the trees</li>
+<li>So you might want to visualize a general trend</li>
+<li>To this end, you can add a regression line</li>
+<li>i.e. the straight line that is closest to all points</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Adding a regression line</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We use the <code>lm</code> function for generating the model and the <code>abline</code> function, which adds straight lines to a plot</li>
+</ul>
+
+<pre><code class="r">plot(x, y)
+model &lt;- lm(y ~ x)
+abline(model)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-33-1.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" width="30%" height="30%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Adding a lo(w)ess curve</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>lowess/loess: locally weighted polynomial regression models</li>
+<li>&quot;The basic idea underlying smoothers is to use the observations in a given span
+(or bin) of values of X to calculate the average increase in Y . You then move this
+span from left to right along the horizontal axis, each time calculating the new
+increase in y.&quot; (Baayen 2008: 34)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Adding a lo(w)ess curve</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x,y, main = &quot;lowess&quot;)
+lines(lowess(x, y))
+scatter.smooth(x,y, main = &quot;loess&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-35-1.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" width="65%" height="65%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>From scatterplot to lineplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, type = &quot;l&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-36-1.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>From scatterplot to lineplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(x, y, type = &quot;b&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>From scatterplot to lineplot: Line types</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Line types can be customized using the <code>lty</code> parameter:</li>
+</ul>
+
+<pre><code class="r">plot(x, y, type = &quot;b&quot;, lty = 2)
+lines(x = c(2:7), y = c(4:9), lty = 3, col = &quot;darkgrey&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-38-1.png" title="plot of chunk unnamed-chunk-38" alt="plot of chunk unnamed-chunk-38" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>When to use a lineplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Lineplots are useful for showing e.g. change over time</li>
+<li>Count variable on y-axis, (at least) ordinal variable on x-axis</li>
+<li>Why should we avoid nominal variables on the x-axis?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>When to use a lineplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Lineplots are useful for showing e.g. change over time</li>
+<li>Count variable on y-axis, (at least) ordinal variable on x-axis</li>
+<li>Why should we avoid nominal variables on the x-axis?</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-39-1.png" title="plot of chunk unnamed-chunk-39" alt="plot of chunk unnamed-chunk-39" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Use <code>read.csv</code> to read in the dataframe height_weight.csv</li>
+<li>Plot height against weight.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">hw &lt;- read.csv(&quot;examples/height_weight.csv&quot;)
+plot(hw$height, hw$weight, 
+     xlab = &quot;Height&quot;, ylab = &quot;Weight&quot;, main = &quot;Height~Weight&quot;)
+model_hw &lt;- lm(hw$weight~hw$height)
+abline(model_hw, col = &quot;darkgrey&quot;, lty = 2)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-40-1.png" title="plot of chunk unnamed-chunk-40" alt="plot of chunk unnamed-chunk-40" width="35%" height="35%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a more complex scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Use <code>read.csv</code> to read in the dataframe Pokemon.csv</li>
+<li>Plot height_m against weight_kg.</li>
+<li>Use the <code>col</code> parameter to show the color of each Pokémon, as indicated in the &quot;Color&quot; column.</li>
+<li>Use the <code>pch</code> parameter to show the form of each Pokémon, as indicated in the &quot;Form&quot; column.</li>
+<li>Hint: For the <code>pch</code> part, first look what happens when you try <code>as.numeric(pok$Form)</code></li>
+<li>Finally, add a regression line to the plot.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a more complex scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># read data
+pok &lt;- read.csv(&quot;examples/Pokemon.csv&quot;)
+
+# plot
+plot(pok$Height_m, pok$Weight_kg, col = pok$Color, pch = as.numeric(pok$Form),
+    xlab=&quot;Height&quot;, ylab=&quot;Weight&quot;, main = &quot;Height~Weight, Pokémon&quot;)
+model_pok &lt;- lm(pok$Weight_kg~pok$Height_m)
+abline(model_pok)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a more complex scatterplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-42-1.png" title="plot of chunk unnamed-chunk-42" alt="plot of chunk unnamed-chunk-42" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Barplots are useful to show counts of categorical variables (e.g. number of men vs. number of women in parliament)...</li>
+<li class='..or'>summary statistics (usually: means) of metric variables across different categories (e.g. mean height of humans vs. Klingons)</li>
+<li>But beware: Bar plots can <em>hide</em> information, cf. #barbarplots (&quot;Friends don&#39;t let friends do bar charts&quot;)</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-43-1.png" title="plot of chunk unnamed-chunk-43" alt="plot of chunk unnamed-chunk-43" width="70%" height="70%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-65" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Main argument of the <code>barplot()</code> function is <code>height</code></li>
+<li>This can be a vector or a matrix</li>
+<li>Let&#39;s try it out:</li>
+</ul>
+
+<pre><code class="r"># define a vector
+bar_heights &lt;- c(50, 80)
+barplot(bar_heights)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The labels of the bars can be specified using <code>names.arg</code>:</li>
+</ul>
+
+<pre><code class="r">barplot(bar_heights, names.arg = c(&quot;stuff&quot;, &quot;more\nstuff&quot;))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-46-1.png" title="plot of chunk unnamed-chunk-46" alt="plot of chunk unnamed-chunk-46" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The other arguments are largely the same as in the case of scatterplots:</li>
+</ul>
+
+<pre><code class="r">barplot(bar_heights, names.arg = c(&quot;stuff&quot;, &quot;more\nstuff&quot;),
+        main = &quot;I&#39;m a barplot&quot;, xlab = &quot;I&#39;m the x label&quot;, ylab = &quot;I&#39;m the y label&quot;,
+        cex.main = 2, cex.lab = 2, cex.axis = 2, cex.names = 2)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-47-1.png" title="plot of chunk unnamed-chunk-47" alt="plot of chunk unnamed-chunk-47" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The <code>space</code> argument defines the space between bars, default is 0.2 if <code>height</code> is a vector</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-48-1.png" title="plot of chunk unnamed-chunk-48" alt="plot of chunk unnamed-chunk-48" width="50%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The <code>space</code> argument defines the space between bars, default is 0.2 if <code>height</code> is a vector</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-49-1.png" title="plot of chunk unnamed-chunk-49" alt="plot of chunk unnamed-chunk-49" width="50%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The <code>space</code> argument defines the space between bars, default is 0.2 if <code>height</code> is a vector</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-50-1.png" title="plot of chunk unnamed-chunk-50" alt="plot of chunk unnamed-chunk-50" width="50%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The <code>space</code> argument defines the space between bars, default is 0.2 if <code>height</code> is a vector</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-51-1.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" width="50%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The <code>space</code> argument defines the space between bars, default is 0.2 if <code>height</code> is a vector</li>
+</ul>
+
+<p><img src="assets/fig/unnamed-chunk-52-1.png" title="plot of chunk unnamed-chunk-52" alt="plot of chunk unnamed-chunk-52" width="50%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Knowing the width of bars and the space between them is important if you want to add text</li>
+<li>To simplify the task, you can set <code>space = 0</code> </li>
+</ul>
+
+<pre><code class="r">barplot(bar_heights / sum(bar_heights), # get relative frequencies
+        names.arg = c(&quot;stuff&quot;, &quot;more\nstuff&quot;), space = 0)
+text(x = c(0:1)+0.5,
+     y = (bar_heights / sum(bar_heights)) - 0.05,
+     labels = bar_heights)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-53-1.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-74" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Or you can use the magic of vector addition and multiplication</li>
+<li><code>0.5:1.5</code> yields {0.5,1.5}, <code>0.2 * 1:2</code> yields {0.2, 0.4} (= 0.2 * 1, 0.2 * 2)</li>
+</ul>
+
+<pre><code class="r">barplot(bar_heights / sum(bar_heights), # get relative frequencies
+        names.arg = c(&quot;stuff&quot;, &quot;more\nstuff&quot;))
+text(x = (0.5:1.5)  + (0.2 * 1:2),
+     y = (bar_heights / sum(bar_heights)) - 0.05,
+     labels = bar_heights)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-54-1.png" title="plot of chunk unnamed-chunk-54" alt="plot of chunk unnamed-chunk-54" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-75" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot from a matrix</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">bar_matrix &lt;- matrix(c(2,4,5,4,3,3,7,6), nrow = 2)
+bar_matrix
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    2    5    3    7
+## [2,]    4    4    3    6
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot from a matrix</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">barplot(bar_matrix)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-56-1.png" title="plot of chunk unnamed-chunk-56" alt="plot of chunk unnamed-chunk-56" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>Generating a barplot from a matrix</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">barplot(bar_matrix, beside = T)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-57-1.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Hands-on example: action-sentence compatibility task</p>
+
+<iframe src="http://pfriemelpfuhl.bplaced.net/jspsych-4.3/tests%26examples/actionsentence.html" frameborder=1></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Task: Read in file actionsentence.csv with <code>read.csv</code></li>
+<li>Inspect the data using <code>head</code>, <code>str</code>, and <code>View</code></li>
+<li>Subset the data: Omit rows with <code>direction == &quot;distractor&quot;</code></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">rt &lt;- read.csv(&quot;examples/actionsentence.csv&quot;, fileEncoding = &quot;UTF8&quot;)
+rt &lt;- subset(rt, direction != &quot;distractor&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>No we want to show the means for &quot;toward&quot; and &quot;away&quot; sentences using a barplot.</li>
+<li>We want to abstract over the individual subjects, so it makes sense to transpose the table from wide to long format first.</li>
+</ul>
+
+<pre><code class="r">library(reshape2)
+rt2 &lt;- melt(rt, id.vars = c(&quot;ID&quot;, &quot;sentence&quot;, &quot;direction&quot;))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-82" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>No we want to show the means for &quot;toward&quot; and &quot;away&quot; sentences using a barplot.</li>
+<li>We want to abstract over the individual subjects, so it makes sense to transpose the table from wide to long format first.</li>
+</ul>
+
+<pre><code class="r">library(reshape2)
+rt2 &lt;- melt(rt, id.vars = c(&quot;ID&quot;, &quot;sentence&quot;, &quot;direction&quot;))
+
+# same result but with (imho) more complicated syntax: &quot;gather&quot; from tidyr package
+library(tidyr)
+rt3 &lt;- gather(rt, variable, value, -ID, -sentence, -direction)
+all(rt2==rt3) # checks if all values are identical
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-83" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>No we want to show the means for &quot;toward&quot; and &quot;away&quot; sentences using a barplot.</li>
+<li>We want to abstract over the individual subjects, so it makes sense to transpose the table from wide to long format first.</li>
+</ul>
+
+<pre><code class="r">library(reshape2)
+rt2 &lt;- melt(rt, id.vars = c(&quot;ID&quot;, &quot;sentence&quot;, &quot;direction&quot;))
+
+# same result but with (imho) more complicated syntax: &quot;gather&quot; from tidyr package
+library(tidyr)
+rt3 &lt;- gather(rt, variable, value, -ID, -sentence, -direction)
+all(rt2==rt3) # cheks if all values are identical
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-84" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># get mean values for &quot;away&quot; and &quot;towards&quot; subsets:
+rt2_away &lt;- subset(rt2, direction == &quot;away&quot;)
+rt2_toward &lt;- subset(rt2, direction == &quot;toward&quot;)
+
+mean_away &lt;- mean(rt2_away$value)
+mean_toward &lt;- mean(rt2_toward$value)
+
+# combine both to one vector
+rt_means &lt;- c(mean_away, mean_toward)
+rt_means
+</code></pre>
+
+<pre><code>## [1] 1867.9 1789.5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-85" style="background:;">
+  <hgroup>
+    <h2>Hands-on task: Creating a barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">barplot(rt_means, names.arg = c(&quot;away&quot;, &quot;toward&quot;))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-60-1.png" title="plot of chunk unnamed-chunk-60" alt="plot of chunk unnamed-chunk-60" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-86" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Barplot: Adding confidence intervals</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>The mean alone doesn&#39;t say very much</li>
+<li>As mentioned before, [5,5,5,5,995] has the same mean as [1,180,300,223,146]</li>
+<li>This is why researchers tend to add <strong>error bars</strong> to barplots</li>
+<li>in most cases, these error bars represent 95 % confidence intervals...</li>
+<li class='..'>i.e. the interval where we can be 95% confident that it contains the true mean.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-87" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Barplot: adding confidence intervals</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can obtain the confidence intervals for each of our two means using the <code>t.test()</code> function</li>
+</ul>
+
+<pre><code class="r">t_away &lt;- t.test(rt2_away$value)
+str(t_away)
+</code></pre>
+
+<pre><code>## List of 9
+##  $ statistic  : Named num 14.8
+##   ..- attr(*, &quot;names&quot;)= chr &quot;t&quot;
+##  $ parameter  : Named num 29
+##   ..- attr(*, &quot;names&quot;)= chr &quot;df&quot;
+##  $ p.value    : num 4.65e-15
+##  $ conf.int   : num [1:2] 1610 2126
+##   ..- attr(*, &quot;conf.level&quot;)= num 0.95
+##  $ estimate   : Named num 1868
+##   ..- attr(*, &quot;names&quot;)= chr &quot;mean of x&quot;
+##  $ null.value : Named num 0
+##   ..- attr(*, &quot;names&quot;)= chr &quot;mean&quot;
+##  $ alternative: chr &quot;two.sided&quot;
+##  $ method     : chr &quot;One Sample t-test&quot;
+##  $ data.name  : chr &quot;rt2_away$value&quot;
+##  - attr(*, &quot;class&quot;)= chr &quot;htest&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-88" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Barplot: adding confidence intervals</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can use the <code>arrows</code> function to plot confidence intervals</li>
+<li><code>arrows</code> is usually used to draw arrows (duh!)</li>
+<li>But these arrows can be customized in very useful ways...</li>
+</ul>
+
+<pre><code class="r">plot(c(1:10), c(1:10), type = &quot;n&quot;)
+arrows(x0 = 2, x1 = 4,y0 = 5, y1 = 5)
+arrows(x0 = 8, x1 = 8, y0 = 5, y1 = 9, 
+       angle = 90,  # set angle to 90 degrees = flat arrow head
+       code = 3)    # draw arrow head on BOTH ends of the &quot;arrow&quot;
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-89" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Barplot: adding confidence intervals</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">ci_away &lt;- t.test(rt2_away$value)$conf.int
+ci_toward &lt;- t.test(rt2_toward$value)$conf.int
+
+barplot(rt_means, names.arg = c(&quot;away&quot;, &quot;toward&quot;))
+par(xpd=T)
+arrows(x0 = 0.7, x1 = 0.7, y0 = ci_away[1], y1 = ci_away[2], 
+       angle = 90, code = 3, length = .2)
+arrows(x0 = 1.9, x1 = 1.9, y0 = ci_toward[1], y1 = ci_toward[2], 
+       angle = 90, code = 3, length = .2)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" width="25%" height="25%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-90" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Hands-on task: Creating a dodged barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Read in the file <code>avengers.csv</code></li>
+<li>Plot the screentimes of Thor and Iron Man in the three Avengers movies as a dodged barplot (i.e. a barplot with side-by-side bars).</li>
+<li>Hint: For a dodged barplot, <code>barplot()</code> needs a <em>matrix</em> as input. This is a bit tricky - toy around with <code>matrix()</code> to create a matrix that looks like this (without the row and column names)</li>
+</ul>
+
+<pre><code>##          Avengers1 Avengers2 Avengers3
+## Iron Man        37        45        18
+## Thor            25        14        14
+</code></pre>
+
+<ul>
+<li>Another hint: It might help to reorder the data. Using <code>avengers[order(avengers$character),]</code> you can sort them by the &quot;character&quot; column.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-91" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Hands-on task: Creating a dodged barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># read in data
+avengers &lt;- read.csv(&quot;examples/avengers.csv&quot;)
+
+# sort by &quot;character&quot; column
+avengers &lt;- avengers[order(avengers$Character),]
+avengers_matrix &lt;- matrix(avengers$Screentime, ncol = 3, byrow = T)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-92" style="background:#ffffbf;">
+  <hgroup>
+    <h2>Hands-on task: Creating a dodged barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># plot
+barplot(avengers_matrix, beside = T, names.arg = c(&quot;Avengers 1&quot;, &quot;Avengers 2&quot;, &quot;Avengers 3&quot;),
+        legend.text = c(&quot;Iron Man&quot;, &quot;Thor&quot;))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-93" style="background:;">
+  <hgroup>
+    <h2>Graphical parameters</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>With the help of graphical parameters, you can change the appearance of your plot. See <code>?par</code> for more information. Some of the most important ones:</p>
+
+<ul class = "build incremental">
+<li><code>mar</code>: margins.</li>
+<li><code>xpd</code>: If TRUE, you can plot outside the plot region. If FALSE (the default), plotting is confined to the plot region.</li>
+<li><code>mfrow</code>: numer of c(rows, columns)</li>
+<li><code>bg</code>: background color (or no color if you choose &quot;transparent&quot;; default is white)</li>
+<li>Type <code>par()</code> to see the current settings (= the default values if you haven&#39;t changed them). This can come in handy if you want to change parameters and then restore the defaults afterwards.</li>
+<li>You can even store the current values as an object by typing e.g. <code>par_default &lt;- par()</code> and later on restore the current settings via <code>par(par_default)</code>.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-94" style="background:;">
+  <hgroup>
+    <h2>Saving graphs</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In RStudio, you can use the &quot;Export&quot; button in the plot window</li>
+<li>However, the graphics files generated this way have low resolution (72dpi), unless you export an svg image</li>
+<li>This is why you should use <code>png()</code>, <code>tiff()</code>, <code>jpeg()</code>, or <code>bmp()</code> instead.</li>
+</ul>
+
+<pre><code class="r">png(filename = &quot;myplot.jpg&quot;)
+plot(x,y)
+dev.off()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-95" style="background:;">
+  <hgroup>
+    <h2>Saving graphs</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Saving graphs as vector graphics (SVG) has its advantages...</li>
+<li class='..'>but not all programmes can handle SVG files ☹ </li>
+<li>Most publishers request PNG or TIFF files (some are also ok with JPG or BMP)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-96" style="background:;">
+  <hgroup>
+    <h2>Saving graphs: Layout</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Often you&#39;ll want to arrange plots in rows and/or columns</li>
+<li>You have already encountered <code>par(mfrow=c(nrow,ncol))</code></li>
+<li>More complex arrangements are possible with <code>layout</code></li>
+<li>To use this function, you first have to define a <em>matrix</em></li>
+</ul>
+
+<pre><code class="r">m &lt;- matrix(c(1,2,2,
+              1,2,2),
+           nrow = 2, byrow = T)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-97" style="background:;">
+  <hgroup>
+    <h2>Saving graphs: Layout</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">layout(m)
+barplot(c(20, 40), names.arg = c(&quot;a&quot;, &quot;b&quot;))
+plot(x = c(7,9,15,24), y = c(8,15, 40, 32), type = &quot;l&quot;, ylab=&quot;y&quot;, xlab=&quot;x&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-69-1.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r">par(par_cur)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-98" style="background:;">
+  <hgroup>
+    <h2>Saving graphs: Layout</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In order to export the plot, we just add the graphics device commands <code>png()</code> (or the like) and <code>dev.off()</code>:</li>
+</ul>
+
+<pre><code class="r">png(&quot;myfile.png&quot;, width = 7, height = 7, un = &quot;in&quot;, res = 300)
+layout(m)
+barplot(c(20, 40), names.arg = c(&quot;a&quot;, &quot;b&quot;))
+plot(x = c(7,9,15,24), y = c(8,15, 40, 32), type = &quot;l&quot;, ylab=&quot;y&quot;, xlab=&quot;x&quot;)
+dev.off()
+</code></pre>
+
+<pre><code>## quartz_off_screen 
+##                 2
+</code></pre>
+
+<pre><code class="r">par(par_cur)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-99" style="background:;">
+  <hgroup>
+    <h2>Tips and tricks for efficient visualization</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>You don&#39;t have to start from scratch each time you create a plot.</li>
+<li>You can re-use code that you already have...</li>
+<li class='..'>and you don&#39;t even have to copy &amp; paste!</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-100" style="background:;">
+  <hgroup>
+    <h2>Re-using code</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>R and RStudio offer multiple different ways to re-use code:</li>
+<li>functions</li>
+<li>packages (= collections of functions)</li>
+<li><p>code snippets</p></li>
+<li><p>Let&#39;s explore them in turn.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-101" style="background:;">
+  <hgroup>
+    <h2>Functions</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>R makes it very easy to write your own functions:</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-102" style="background:;">
+  <hgroup>
+    <h2>Functions</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>R makes it very easy to write your own functions:</li>
+</ul>
+
+<pre><code class="r">myfunction &lt;- function(x) {
+  return(x + 2)
+}
+
+myfunction(40)
+</code></pre>
+
+<pre><code>## [1] 42
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-103" style="background:;">
+  <hgroup>
+    <h2>Functions</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>And functions can also be used to store chunks of code that you use for visualizations:</li>
+</ul>
+
+<pre><code class="r">myplot &lt;- function(x, y, ...) { #... for inheritance
+  plot(x, y, pch = 20, type = &quot;b&quot;, lty = 2, lwd = 2)
+}
+myplot(x = c(1,3,7), y = c(7,3,1))
+</code></pre>
+
+<p><img src="assets/fig/vizfunctions-1.png" title="plot of chunk vizfunctions" alt="plot of chunk vizfunctions" width="20%" height="20%" style="display: block; margin: auto;" /></p>
+
+<ul>
+<li>The &quot;...&quot; in the function definition makes sure that all other arguments not explicitly specified here are passed on to the &quot;plot&quot; function.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-104" style="background:;">
+  <hgroup>
+    <h2>Packages</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>Packages are collections of functions</li>
+<li>It&#39;s only a small step from writing your own functions to compiling your own package</li>
+<li>For guidance on how to create your own package, see <a href="http://r-pkgs.had.co.nz/">http://r-pkgs.had.co.nz/</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-105" style="background:;">
+  <hgroup>
+    <h2>Code snippets</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>Macros for inserting snippets of code that you use very often</li>
+<li>for example, if you have a specific configuration for exporting plots that you use over and over again, you can type it every time...</li>
+<li class='..'>or you can just use a code snippet:</li>
+<li>Tools &gt; Global Options &gt; Code &gt; Edit Snippets</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-106" style="background:;">
+  <hgroup>
+    <h2>Code snippets</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Macros for inserting snippets of code that you use very often</li>
+<li>for example, if you have a specific configuration for exporting plots that you use over and over again, you can type it every time...</li>
+<li class='..'>or you can just use a code snippet:</li>
+<li>Tools &gt; Global Options &gt; Code &gt; Edit Snippets</li>
+</ul>
+
+<pre><code class="r">snippet plotexp
+    png(&quot;filename.png&quot;, width = 6.5, height = 5, un = &quot;in&quot;, res = 300)
+
+    dev.off()
+
+snippet plot2pan
+    par(mfrow = c(1,2))
+    png(&quot;filename.png&quot;, width = 13, height = 5, un = &quot;in&quot;, res = 300)
+
+    dev.off()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-107" style="background:;">
+  <hgroup>
+    <h2>Code snippets</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="fig/plot2pan.gif" width='80%' height='80%'></img></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-108" style="background:;">
+  <hgroup>
+    <h2>More things to explore</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>lattice graphics</li>
+<li>ggplot2</li>
+<li>plotly / shiny for interactive visualizations</li>
+<li>GoogleVis motion charts</li>
+<li>and a lot more!</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-109" style="background:;">
+  <hgroup>
+    <h2>References</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Baayen, R. Harald. 2008. Analyzing Linguistic Data: A Practical Introduction to Statistics Using R. Cambridge: Cambridge University Press.</li>
+<li>Freeman, Jenny V., Stephen John Walters &amp; Michael J. Campbell. 2008. How to display data. Malden, Mass: BMJ Books.</li>
+<li>Rifkin, Erik &amp; Edward Bouwer. 2007. The illusion of certainty: health benefits and risks. New York, NY: Springer.</li>
+<li>Tufte, Edward R. 2001. The visual display of quantitative information. 2nd ed. Cheshire: Graphics Press.</li>
+<li>Wainer, Howard. 1984. How to display data badly. The American Statistician 28(2). 137–147.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Overview'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Before we start...'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Before we start...'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Before we start...'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Before we start...'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Before we start...'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Why visualize?'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Choosing the &quot;right&quot; plot'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Types of data: Levels of measurement'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Alternative visualizations'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Alternative visualizations'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Alternative visualizations'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Alternative Visualizations'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Alternative Visualizations'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='The plot as a metaphor'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Best practice for reporting and displaying data'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Best practice (Tufte 2001, Freeman et al. 2009)'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Beware of overplotting!'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Further tips'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Further tips'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='From data to plot'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Preparing data for visualization'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='&quot;Long&quot; vs. &quot;wide&quot; format'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Preparing data for visualization'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Preparing data for visualization'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Plot types'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Scatterplots: When to use a scatterplot'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Creating a scatterplot'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Creating a scatterplot'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Creating a scatterplot'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Creating a scatterplot'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Creating a scatterplot'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Customizing a scatterplot: Labels'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Customizing a scatterplot: Colors'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Customizing a scatterplot: Colors'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Some notes on color'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Some notes on color'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Customizing a scatterplot: Text'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Customizing a scatterplot: Shapes'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Customizing a scatterplot: Shapes - and sizes'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Customizing a scatterplot: Shapes'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Customizing a scatterplot: x and y limits'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='Customizing a scatterplot: grid'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='Customizing a scatterplot: cex parameters'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='Customizing a scatterplot: cex parameters'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='Customizing a scatterplot: cex parameters'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Customizing a scatterplot: cex parameters'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='Adding datapoints from another dataframe'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='Adding a legend'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='Adding a regression line'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='Adding a regression line'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='Adding a lo(w)ess curve'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='Adding a lo(w)ess curve'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='From scatterplot to lineplot'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='From scatterplot to lineplot'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='From scatterplot to lineplot: Line types'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='When to use a lineplot'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='When to use a lineplot'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='Hands-on task: Creating a scatterplot'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='Hands-on task: Creating a scatterplot'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='Hands-on task: Creating a more complex scatterplot'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='Hands-on task: Creating a more complex scatterplot'>
+         62
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=63 title='Hands-on task: Creating a more complex scatterplot'>
+         63
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=64 title='Creating a barplot'>
+         64
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=65 title='Creating a barplot'>
+         65
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=66 title='Creating a barplot'>
+         66
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=67 title='Creating a barplot'>
+         67
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=68 title='Creating a barplot'>
+         68
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=69 title='Creating a barplot'>
+         69
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=70 title='Creating a barplot'>
+         70
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=71 title='Creating a barplot'>
+         71
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=72 title='Creating a barplot'>
+         72
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=73 title='Creating a barplot'>
+         73
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=74 title='Creating a barplot'>
+         74
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=75 title='Creating a barplot from a matrix'>
+         75
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=76 title='Creating a barplot from a matrix'>
+         76
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=77 title='Generating a barplot from a matrix'>
+         77
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=78 title='Creating a barplot'>
+         78
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=79 title='Hands-on task: Creating a barplot'>
+         79
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=80 title='Hands-on task: Creating a barplot'>
+         80
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=81 title='Hands-on task: Creating a barplot'>
+         81
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=82 title='Hands-on task: Creating a barplot'>
+         82
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=83 title='Hands-on task: Creating a barplot'>
+         83
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=84 title='Hands-on task: Creating a barplot'>
+         84
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=85 title='Hands-on task: Creating a barplot'>
+         85
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=86 title='Barplot: Adding confidence intervals'>
+         86
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=87 title='Barplot: adding confidence intervals'>
+         87
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=88 title='Barplot: adding confidence intervals'>
+         88
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=89 title='Barplot: adding confidence intervals'>
+         89
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=90 title='Hands-on task: Creating a dodged barplot'>
+         90
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=91 title='Hands-on task: Creating a dodged barplot'>
+         91
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=92 title='Hands-on task: Creating a dodged barplot'>
+         92
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=93 title='Graphical parameters'>
+         93
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=94 title='Saving graphs'>
+         94
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=95 title='Saving graphs'>
+         95
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=96 title='Saving graphs: Layout'>
+         96
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=97 title='Saving graphs: Layout'>
+         97
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=98 title='Saving graphs: Layout'>
+         98
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=99 title='Tips and tricks for efficient visualization'>
+         99
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=100 title='Re-using code'>
+         100
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=101 title='Functions'>
+         101
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=102 title='Functions'>
+         102
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=103 title='Functions'>
+         103
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=104 title='Packages'>
+         104
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=105 title='Code snippets'>
+         105
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=106 title='Code snippets'>
+         106
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=107 title='Code snippets'>
+         107
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=108 title='More things to explore'>
+         108
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=109 title='References'>
+         109
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

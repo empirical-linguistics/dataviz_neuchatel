@@ -1,0 +1,13 @@
+---
+title: "R Data visualization"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Welcome! Here you can find some materials for the R data visualization course (Neuchâtel, April 2019).
+
+## Toy datasets
+- You can download toy datasets for the visualization tutorial here: https://tinyurl.com/neuchaRtel

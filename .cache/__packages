@@ -1,0 +1,11 @@
+base
+lattice
+reshape2
+survival
+Formula
+ggplot2
+Hmisc
+gridExtra
+knitr
+slidify
+tidyr

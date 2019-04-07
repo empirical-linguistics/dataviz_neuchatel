@@ -1,0 +1,11 @@
+﻿ID,sentence,direction,Subject01,Subject02,Subject03,Subject04,Subject05,Subject06
+1,Ich verschränke die Arme.,toward,1800,2372,2563,2284,983,2616
+2,Ich streichle die Katze.,away,2058,3064,2688,1175,560,3850
+3,Ich Burger den kalt.,distractor,2406,2814,2374,1206,878,1743
+4,Ich schließe die Tür.,away,1736,1688,1441,1007,1889,2135
+5,Ich öffne die Schublade.,toward,2252,1592,2981,1122,632,1645
+6,Ich drücke den Knopf.,away,1589,1286,1327,1460,1154,2292
+7,Ich kratze mich am Kopf.,toward,1451,1563,1796,1486,1644,1429
+8,Ich hebe den Finger.,away,2800,1578,1859,2438,1670,2464
+9,Ich glitze den Pork.,distractor,2555,1141,2160,2852,4876,1548
+10,Ich ziehe den Hebel.,away,1924,1274,2622,2059,1361,1589
