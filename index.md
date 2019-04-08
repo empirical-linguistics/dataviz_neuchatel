@@ -27,7 +27,11 @@ editor_options:
 
 > - experiences with R and R studio?
 
-> - If you have a laptop, you can download the toy datasets: https://tinyurl.com/neuchaRtel
+> - If you happen to have a laptop with you, you can download the toy datasets here: https://tinyurl.com/neuchaRtel
+
+> - ... or you can find them on Github along with the slides: https://github.com/empirical-linguistics/dataviz_neuchatel
+
+> - You can view the entire presentation here: https://empirical-linguistics.github.io/dataviz_neuchatel/
 
 ---
 
